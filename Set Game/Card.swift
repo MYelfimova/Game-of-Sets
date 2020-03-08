@@ -19,7 +19,7 @@ class Card : CustomStringConvertible {
     
     let identifier: Int
     var isMatched = false
-    var isVisible = true
+    var isVisible: Bool
     var isSelected = false
     
     var shape: String
@@ -37,7 +37,7 @@ class Card : CustomStringConvertible {
     
     init() {
         self.identifier = Card.getIdentifier()
-        
+        self.isVisible = self.identifier > 12 ? false: true
         let temporaryCard = deck.allCards.remove(at: 0)
         self.shape = temporaryCard["shape"] ?? "?"
         self.color = temporaryCard["color"] ?? "?"
