@@ -7,14 +7,13 @@
 //
 
 import UIKit
+import Foundation
 
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        //var game = Game()
-           
-        //print(game.cards)
+        updateViewFromModel()
     }
 
     
@@ -36,5 +35,34 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var ScoreLabel: UILabel!
     
+    private var game = Game()
     
+    
+    private func updateViewFromModel(){
+        
+        let cardsVisible = game.cards.filter({$0.isVisible})
+        for index in cardButtons.indices {
+            
+            let button = cardButtons[index]
+            let card = cardsVisible[index]
+
+            let string = card.shape
+            let attributes: [NSAttributedString.Key: Any] = [
+                .backgroundColor: #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1),
+                //fileld
+                .strokeWidth: -0.1,
+                .strokeColor: UIColor.yellow,
+                //.foregroundColor: UIColor.red,
+                .font: UIFont.boldSystemFont(ofSize: 54)
+            ]
+
+            let attributedString = NSAttributedString(string: string, attributes: attributes)
+            
+            button.setAttributedTitle(attributedString, for: UIControl.State.normal)
+
+
+        }
+        
+
+    }
 }

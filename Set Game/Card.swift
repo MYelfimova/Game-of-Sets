@@ -37,7 +37,7 @@ class Card : CustomStringConvertible {
     
     init() {
         self.identifier = Card.getIdentifier()
-        self.isVisible = self.identifier > 12 ? false: true
+        self.isVisible = self.identifier > 36 ? false: true
         let temporaryCard = deck.allCards.remove(at: 0)
         self.shape = temporaryCard["shape"] ?? "?"
         self.color = temporaryCard["color"] ?? "?"
