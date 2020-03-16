@@ -27,9 +27,9 @@ class Card : CustomStringConvertible {
     var shade: String
     var number: String
     
-    private static var identifierFactory = 0
+    private static var identifierFactory = -1
 
-
+// now when I'm gonna be deleting matched in set cards with the identifier == the [n]
     private static func getIdentifier() -> Int {
         identifierFactory += 1
         return identifierFactory
@@ -37,7 +37,7 @@ class Card : CustomStringConvertible {
     
     init() {
         self.identifier = Card.getIdentifier()
-        self.isVisible = self.identifier > 36 ? false: true
+        self.isVisible = self.identifier > 35 ? false: true
         let temporaryCard = deck.allCards.remove(at: 0)
         self.shape = temporaryCard["shape"] ?? "?"
         self.color = temporaryCard["color"] ?? "?"
