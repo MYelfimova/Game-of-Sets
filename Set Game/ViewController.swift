@@ -29,13 +29,15 @@ class ViewController: UIViewController {
             
             game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true
             
-            // TODO: game.choose card - is the method were I should implement MATCHING LOGIC
-            //game.chooseCard(at: cardNumber)
-            
             let selectedCardsIndices = game.cards.indices.filter({game.cards[$0].isSelected})
+
+            if selectedCardsIndices.count == 3 {
+                game.checkMatching()
+            }
             if selectedCardsIndices.count <= 3 {
                 doSelection(button: sender)
             } else {
+                
                 for card in game.cards {
                     card.isSelected = false
                 }
