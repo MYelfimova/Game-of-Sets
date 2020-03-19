@@ -13,12 +13,12 @@ class Game{
     //here I collect sets
     private(set) var cards: [Card] = []
     
-    func checkMatching() {
+    func checkMatching() -> Bool {
         let selectedCardsIds = cards.indices.filter({cards[$0].isSelected}).map{cards[$0].identifier}
-        print("selected cards: /(selectedCards)")
+        print("selected cards: \(selectedCardsIds)")
         let selectedCardsIndices = cards.indices.filter({cards[$0].isSelected})
         let selectedCards = cards.filter({$0.isSelected})
-        //If you can sort a group of three cards into "two of ____ and one of ____", then it is not a set.
+        
         if (((selectedCards[0].shape == selectedCards[1].shape) && (selectedCards[0].shape == selectedCards[2].shape) && (selectedCards[1].shape == selectedCards[2].shape))
             ||
             ((selectedCards[0].shape != selectedCards[1].shape) && (selectedCards[0].shape != selectedCards[2].shape) && (selectedCards[1].shape != selectedCards[2].shape))
@@ -32,13 +32,21 @@ class Game{
             ((selectedCards[0].shade != selectedCards[1].shade) && (selectedCards[0].shade != selectedCards[2].shade) && (selectedCards[1].shade != selectedCards[2].shade)))
             {
                 print("cards were matched")
-                cards.remove(at: selectedCardsIndices[2])
-                cards.remove(at: selectedCardsIndices[1])
-                cards.remove(at: selectedCardsIndices[0])
+                for index in selectedCardsIndices {
+                    cards[index].isMatched = true
+                }
+                cards.swapAt(selectedCardsIndices[2], cards.count-1)
+                cards.swapAt(selectedCardsIndices[1], cards.count-2)
+                cards.swapAt(selectedCardsIndices[0], cards.count-3)
+                cards.remove(at: cards.count-1)
+                cards.remove(at: cards.count-1)
+                cards.remove(at: cards.count-1)
                 for i in 0..<36 {
                     cards[i].isVisible = true
                 }
+                return true;
         }
+        return false;
     }
 
     init() {

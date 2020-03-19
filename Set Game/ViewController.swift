@@ -30,22 +30,44 @@ class ViewController: UIViewController {
             game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true
             
             let selectedCardsIndices = game.cards.indices.filter({game.cards[$0].isSelected})
-
-            if selectedCardsIndices.count == 3 {
-                game.checkMatching()
-            }
-            if selectedCardsIndices.count <= 3 {
+            
+            switch selectedCardsIndices.count {
+            case 1, 2 :
                 doSelection(button: sender)
-            } else {
-                
-                for card in game.cards {
-                    card.isSelected = false
+            case 3:
+                doSelection(button: sender)
+                if (game.checkMatching()) {
+                    for index in selectedCardsIndices {
+                        doSelection(button: cardButtons[index])
+                    }
+                    for card in game.cards {
+                        card.isSelected = false
+                    }
                 }
-                game.cards[cardNumber].isSelected = true
+            case 4:
                 for index in selectedCardsIndices {
                     doSelection(button: cardButtons[index])
                 }
+            default:
+                print("default case reached hmmmm")
             }
+
+//            if selectedCardsIndices.count == 3 {
+//                game.checkMatching()
+//                updateViewFromModel()
+//            }
+//            if selectedCardsIndices.count <= 3 {
+//                doSelection(button: sender)
+//            } else {
+//
+//                for card in game.cards {
+//                    card.isSelected = false
+//                }
+//                game.cards[cardNumber].isSelected = true
+//                for index in selectedCardsIndices {
+//                    doSelection(button: cardButtons[index])
+//                }
+//            }
             
             updateViewFromModel()
         }//isSelected
@@ -55,6 +77,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func NewGameBtn(_ sender: UIButton) {
+        game = Game()
+        updateViewFromModel()
     }
     
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -116,8 +140,7 @@ class ViewController: UIViewController {
             let attributedString = NSAttributedString(string: shape, attributes: attributes)
             
             button.setAttributedTitle(attributedString, for: UIControl.State.normal)
-
-
+            
         }
         
 
