@@ -27,50 +27,36 @@ class ViewController: UIViewController {
         // TODO: with this logic I should implement in choose card logic REMOVING MATCHED cards from the game.card array!
         if let cardNumber = cardButtons.firstIndex(of: sender){
             
-            game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true
+            game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true // SELECTION LOGIC
             
             let selectedCardsIndices = game.cards.indices.filter({game.cards[$0].isSelected})
             
+            doSelection(indices: selectedCardsIndices) // SELECTION LOGIC
+            
             switch selectedCardsIndices.count {
             case 1, 2 :
-                doSelection(button: sender)
+                //doSelection(button: sender)
+                print("1 or 2 cards selected")
             case 3:
-                doSelection(button: sender)
                 if (game.checkMatching()) {
                     for index in selectedCardsIndices {
-                        doSelection(button: cardButtons[index])
+                        game.cards[index].isSelected = false
                     }
-                    for card in game.cards {
-                        card.isSelected = false
-                    }
+                    doSelection(indices: [])
                 }
             case 4:
                 for index in selectedCardsIndices {
-                    doSelection(button: cardButtons[index])
+                    game.cards[index].isSelected = false
                 }
+                game.cards[cardNumber].isSelected = true
+                doSelection(indices: [cardNumber])
+                
             default:
                 print("default case reached hmmmm")
             }
-
-//            if selectedCardsIndices.count == 3 {
-//                game.checkMatching()
-//                updateViewFromModel()
-//            }
-//            if selectedCardsIndices.count <= 3 {
-//                doSelection(button: sender)
-//            } else {
-//
-//                for card in game.cards {
-//                    card.isSelected = false
-//                }
-//                game.cards[cardNumber].isSelected = true
-//                for index in selectedCardsIndices {
-//                    doSelection(button: cardButtons[index])
-//                }
-//            }
             
             updateViewFromModel()
-        }//isSelected
+        }
     }
     
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
@@ -83,12 +69,24 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var ScoreLabel: UILabel!
     
-    private func doSelection(button: UIButton) {
-        button.layer.borderWidth = button.layer.borderWidth == 3.0 ? 0 : 3.0
-        button.layer.borderColor = UIColor.gray.cgColor
-        button.layer.cornerRadius = button.layer.cornerRadius == 8.0 ? 0 : 8.0
+    private func doSelection(indices: [Int]) {
+        for card in cardButtons{
+            card.layer.borderWidth = 0
+            card.layer.cornerRadius = 0
+        }
+        for index in indices {
+            cardButtons[index].layer.borderWidth = 3.0
+            cardButtons[index].layer.borderColor = UIColor.gray.cgColor
+            cardButtons[index].layer.cornerRadius = 8.0
+        }
     }
-    
+//
+//    private func doUnselection(button: UIButton) {
+//        button.layer.borderWidth = 0
+//        //button.layer.borderColor = UIColor.gray.cgColor
+//        //button.layer.cornerRadius = 8.0
+//    }
+//
     private var game = Game()
     
     

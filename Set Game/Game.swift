@@ -35,6 +35,7 @@ class Game{
                 for index in selectedCardsIndices {
                     cards[index].isMatched = true
                 }
+
                 cards.swapAt(selectedCardsIndices[2], cards.count-1)
                 cards.swapAt(selectedCardsIndices[1], cards.count-2)
                 cards.swapAt(selectedCardsIndices[0], cards.count-3)
