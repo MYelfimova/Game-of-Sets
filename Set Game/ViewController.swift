@@ -13,10 +13,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViewFromModel()
-        
-        //print(game.cards)
-        //print(game.cards[7].identifier)
     }
+    
+    var numberOfVisibleCards: Int {
+        get {
+            return (game.cards.indices.filter({game.cards[$0].isVisible})).count
+        }
+    }
+    
+    var add3MoreBtnIsActive: Bool {
+        return (numberOfVisibleCards < 22 && game.cards.count >= 24)
+    }
+    
+    
+    
+    //var numberOfActiveButtons = 12
 
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -35,15 +46,15 @@ class ViewController: UIViewController {
             
             switch selectedCardsIndices.count {
             case 1, 2 :
-                //doSelection(button: sender)
+
                 print("1 or 2 cards selected")
                 print("cards selected indices: \(selectedCardsIndices)")
-                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
 
             case 3:
                 print("3 cards selected")
                 print("cards selected indices before matching func: \(selectedCardsIndices)")
-                print("cards VISIBLE indices before matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))")
+                print("cards VISIBLE indices before matching:  \(numberOfVisibleCards)")
                 if (game.checkMatching()) {
                     for index in selectedCardsIndices {
                         game.cards[index].isSelected = false
@@ -53,7 +64,7 @@ class ViewController: UIViewController {
                     print("match was made")
                 }
                 print("cards selected indices after matching func: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices after matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+                print("cards VISIBLE indices after matching:  \(numberOfVisibleCards)\n")
                 
             case 4:
                 print("4 cards selected")
@@ -64,33 +75,31 @@ class ViewController: UIViewController {
                 game.cards[cardNumber].isSelected = true
                 doSelection(indices: [cardNumber])
                  print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
                 
             default:
                 print("default case reached hmmmm")
                  print("cards selected indices : \(selectedCardsIndices) + double-check: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
             }
             
             updateViewFromModel()
         }
     }
     
+    @IBOutlet weak var Deal3MoreCardsButton: UIButton!
+    
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
-//        let cardsVisibleIndices = game.cards.indices.filter({game.cards[$0].isVisible})
-//        if let lastCardNumber = cardsVisibleIndices.max() {
-//            if lastCardNumber < 23 {
-//                game.cards[lastCardNumber+1].isVisible = true
-//                game.cards[lastCardNumber+2].isVisible = true
-//                game.cards[lastCardNumber+3].isVisible = true
-//            }
-//        }
-//        updateViewFromModel()
+        if add3MoreBtnIsActive {
+            game.cards[numberOfVisibleCards].isVisible = true
+            game.cards[numberOfVisibleCards].isVisible = true
+            game.cards[numberOfVisibleCards].isVisible = true
+        }
+        updateViewFromModel()
     }
     
     @IBAction func NewGameBtn(_ sender: UIButton) {
-//        game = Game()
-//        updateViewFromModel()
+
     }
     
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -112,64 +121,73 @@ class ViewController: UIViewController {
     
     private func updateViewFromModel(){
         
+        if add3MoreBtnIsActive{
+            Deal3MoreCardsButton.isEnabled = true
+            Deal3MoreCardsButton.setTitleColor(UIColor.green, for: UIControl.State.normal)
+        } else {
+            Deal3MoreCardsButton.isEnabled = false
+            Deal3MoreCardsButton.setTitleColor(UIColor.gray, for: UIControl.State.normal)
+        }
+        
         let cardsVisible = game.cards.filter({$0.isVisible})
         for index in cardButtons.indices {
             
-            // here I show that indices of logic cards and UI card MATCH!
-            let button = cardButtons[index]
-            let card = cardsVisible[index]
-
-            let shape = card.shape
-            
-            let color: UIColor
-            switch card.color {
-                case "red": color = UIColor.red
-                case "yellow": color = UIColor.yellow
-                case "green": color = UIColor.green
-            default: color = UIColor.gray
+            if (index) >= numberOfVisibleCards {
+                let button = cardButtons[index]
+                button.isHidden = true
+                button.isEnabled = false
             }
-            
-            var attributes: [NSMutableAttributedString.Key: Any]
-            switch card.shade {
-            case "striped":
-                attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-                    .strokeColor: color,
-                    .strokeWidth: -0.4,
-                    .foregroundColor: color.withAlphaComponent(0.5),
-                    .font: UIFont.boldSystemFont(ofSize: 54)
-                ]
-            case "filled":
-                attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-                    //.strokeColor: UIColor.white,
-                    .foregroundColor: color,
-                    .font: UIFont.boldSystemFont(ofSize: 54)
-                ]
-            case "outline":
-                attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-                    .strokeColor: color,
-                    .strokeWidth: 4,
-                    .foregroundColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-                    .font: UIFont.boldSystemFont(ofSize: 54)
-                ]
-            default: attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1)]
-            }
-            
+            else {
+                // here I show that indices of logic cards and UI card MATCH!
+                let button = cardButtons[index]
+                let card = cardsVisible[index]
+                
+                button.isHidden = false
+                button.isEnabled = true
 
-            let attributedString = NSAttributedString(string: shape, attributes: attributes)
-            
-            button.setAttributedTitle(attributedString, for: UIControl.State.normal)
-            
+                let shape = card.shape
+                
+                let color: UIColor
+                switch card.color {
+                    case "red": color = UIColor.red
+                    case "yellow": color = UIColor.yellow
+                    case "green": color = UIColor.green
+                default: color = UIColor.gray
+                }
+                
+                var attributes: [NSMutableAttributedString.Key: Any]
+                switch card.shade {
+                case "striped":
+                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
+                        .strokeColor: color,
+                        .strokeWidth: -0.4,
+                        .foregroundColor: color.withAlphaComponent(0.5),
+                        .font: UIFont.boldSystemFont(ofSize: 54)
+                    ]
+                case "filled":
+                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
+                        //.strokeColor: UIColor.white,
+                        .foregroundColor: color,
+                        .font: UIFont.boldSystemFont(ofSize: 54)
+                    ]
+                case "outline":
+                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
+                        .strokeColor: color,
+                        .strokeWidth: 4,
+                        .foregroundColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
+                        .font: UIFont.boldSystemFont(ofSize: 54)
+                    ]
+                default: attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1)]
+                }
+                
+
+                let attributedString = NSAttributedString(string: shape, attributes: attributes)
+                
+                button.setAttributedTitle(attributedString, for: UIControl.State.normal)
+            }
         }
         
 
     }
 }
 
-
-//extension Collection {
-//
-//    // Returns the element at the specified index if it is within bounds, otherwise nil.
-//    subscript (safe index: Index) -> Element? {
-//        return indices.contains(index) ? self[index] : nil
-//    }
-//}
