@@ -37,22 +37,39 @@ class ViewController: UIViewController {
             case 1, 2 :
                 //doSelection(button: sender)
                 print("1 or 2 cards selected")
+                print("cards selected indices: \(selectedCardsIndices)")
+                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+
             case 3:
+                print("3 cards selected")
+                print("cards selected indices before matching func: \(selectedCardsIndices)")
+                print("cards VISIBLE indices before matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))")
                 if (game.checkMatching()) {
                     for index in selectedCardsIndices {
                         game.cards[index].isSelected = false
+                        game.cards[index].isVisible = true
                     }
                     doSelection(indices: [])
+                    print("match was made")
                 }
+                print("cards selected indices after matching func: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
+                print("cards VISIBLE indices after matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
+                
             case 4:
+                print("4 cards selected")
+                print("cards selected indices : \(selectedCardsIndices)")
                 for index in selectedCardsIndices {
                     game.cards[index].isSelected = false
                 }
                 game.cards[cardNumber].isSelected = true
                 doSelection(indices: [cardNumber])
+                 print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
+                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
                 
             default:
                 print("default case reached hmmmm")
+                 print("cards selected indices : \(selectedCardsIndices) + double-check: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
+                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
             }
             
             updateViewFromModel()
@@ -60,11 +77,20 @@ class ViewController: UIViewController {
     }
     
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
+//        let cardsVisibleIndices = game.cards.indices.filter({game.cards[$0].isVisible})
+//        if let lastCardNumber = cardsVisibleIndices.max() {
+//            if lastCardNumber < 23 {
+//                game.cards[lastCardNumber+1].isVisible = true
+//                game.cards[lastCardNumber+2].isVisible = true
+//                game.cards[lastCardNumber+3].isVisible = true
+//            }
+//        }
+//        updateViewFromModel()
     }
     
     @IBAction func NewGameBtn(_ sender: UIButton) {
-        game = Game()
-        updateViewFromModel()
+//        game = Game()
+//        updateViewFromModel()
     }
     
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -80,13 +106,7 @@ class ViewController: UIViewController {
             cardButtons[index].layer.cornerRadius = 8.0
         }
     }
-//
-//    private func doUnselection(button: UIButton) {
-//        button.layer.borderWidth = 0
-//        //button.layer.borderColor = UIColor.gray.cgColor
-//        //button.layer.cornerRadius = 8.0
-//    }
-//
+
     private var game = Game()
     
     
@@ -144,3 +164,12 @@ class ViewController: UIViewController {
 
     }
 }
+
+
+//extension Collection {
+//
+//    // Returns the element at the specified index if it is within bounds, otherwise nil.
+//    subscript (safe index: Index) -> Element? {
+//        return indices.contains(index) ? self[index] : nil
+//    }
+//}
