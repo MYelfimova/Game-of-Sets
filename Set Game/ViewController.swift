@@ -22,9 +22,9 @@ class ViewController: UIViewController {
     }
     
     var add3MoreBtnIsActive: Bool {
-        return (numberOfVisibleCards < 22 && game.cards.count >= 24)
+        return (numberOfVisibleCards < 22 && game.cards.count != numberOfVisibleCards)
     }
-    
+
     
     
     //var numberOfActiveButtons = 12
@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     
     // so far only selection and deselection is implemented
     @IBAction func touchCard(_ sender: UIButton) {
+        print("total number of cards left from the deck: \(game.cards.count)\n")
         // TODO: with this logic I should implement in choose card logic REMOVING MATCHED cards from the game.card array!
         if let cardNumber = cardButtons.firstIndex(of: sender){
             
@@ -54,17 +55,13 @@ class ViewController: UIViewController {
             case 3:
                 print("3 cards selected")
                 print("cards selected indices before matching func: \(selectedCardsIndices)")
-                print("cards VISIBLE indices before matching:  \(numberOfVisibleCards)")
+                print("cards VISIBLE indices before matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))")
                 if (game.checkMatching()) {
-                    for index in selectedCardsIndices {
-                        game.cards[index].isSelected = false
-                        game.cards[index].isVisible = true
-                    }
                     doSelection(indices: [])
                     print("match was made")
                 }
                 print("cards selected indices after matching func: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices after matching:  \(numberOfVisibleCards)\n")
+                print("cards VISIBLE indices after matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
                 
             case 4:
                 print("4 cards selected")
@@ -75,12 +72,12 @@ class ViewController: UIViewController {
                 game.cards[cardNumber].isSelected = true
                 doSelection(indices: [cardNumber])
                  print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
+                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
                 
             default:
                 print("default case reached hmmmm")
                  print("cards selected indices : \(selectedCardsIndices) + double-check: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
+                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
             }
             
             updateViewFromModel()

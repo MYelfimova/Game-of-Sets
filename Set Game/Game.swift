@@ -33,13 +33,28 @@ class Game{
                 for index in selectedCardsIndices {
                     cards[index].isMatched = true
                 }
-                
+                if ((cards.indices.filter({cards[$0].isVisible})).count < 13)
+                    && (cards.count != (cards.indices.filter({cards[$0].isVisible})).count){
                     cards.swapAt(selectedCardsIndices[2], cards.count-1)
                     cards.swapAt(selectedCardsIndices[1], cards.count-2)
                     cards.swapAt(selectedCardsIndices[0], cards.count-3)
                     cards.remove(at: cards.count-1)
                     cards.remove(at: cards.count-1)
                     cards.remove(at: cards.count-1)
+                    
+                    for index in selectedCardsIndices {
+                        cards[index].isSelected = false
+                        cards[index].isVisible = true
+                    }
+                } else {
+                    cards.remove(at: selectedCardsIndices[2])
+                    cards.remove(at: selectedCardsIndices[1])
+                    cards.remove(at: selectedCardsIndices[0])
+
+                }
+
+                
+                    
                     
                 
                 return true;
