@@ -25,9 +25,7 @@ class ViewController: UIViewController {
         return (numberOfVisibleCards < 22 && game.cards.count != numberOfVisibleCards)
     }
 
-    
-    
-    //var numberOfActiveButtons = 12
+    var score = 0
 
     
     @IBOutlet var cardButtons: [UIButton]!
@@ -39,7 +37,13 @@ class ViewController: UIViewController {
         // TODO: with this logic I should implement in choose card logic REMOVING MATCHED cards from the game.card array!
         if let cardNumber = cardButtons.firstIndex(of: sender){
             
-            game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true // SELECTION LOGIC
+            if game.cards[cardNumber].isSelected {
+                game.cards[cardNumber].isSelected = false
+                score -= 1
+            } else {
+                game.cards[cardNumber].isSelected = true
+            }
+            //game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true // SELECTION LOGIC
             
             let selectedCardsIndices = game.cards.indices.filter({game.cards[$0].isSelected})
             
@@ -58,6 +62,7 @@ class ViewController: UIViewController {
                 print("cards VISIBLE indices before matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))")
                 if (game.checkMatching()) {
                     doSelection(indices: [])
+                    score += 3
                     print("match was made")
                 }
                 print("cards selected indices after matching func: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
@@ -71,11 +76,13 @@ class ViewController: UIViewController {
                 }
                 game.cards[cardNumber].isSelected = true
                 doSelection(indices: [cardNumber])
-                 print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
+                score -= 5
+                
+                print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
                 print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
                 
             default:
-                print("default case reached hmmmm")
+                print("nothing selected so far")
                  print("cards selected indices : \(selectedCardsIndices) + double-check: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
                 print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
             }
@@ -96,7 +103,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func NewGameBtn(_ sender: UIButton) {
-
+ 
     }
     
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -113,10 +120,12 @@ class ViewController: UIViewController {
         }
     }
 
-    private var game = Game()
+    var game = Game()
     
     
     private func updateViewFromModel(){
+        
+        ScoreLabel.text = String("Score: \(score)")
         
         if add3MoreBtnIsActive{
             Deal3MoreCardsButton.isEnabled = true
