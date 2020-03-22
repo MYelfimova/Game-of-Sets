@@ -37,6 +37,10 @@ class Card : CustomStringConvertible {
     
     init() {
         self.identifier = Card.getIdentifier()
+        
+        // This is to keep up with new game logic
+        if self.identifier == 81 {Card.identifierFactory = 0}
+        
         self.isVisible = self.identifier < 13 ? true : false
         let temporaryCard = deck.allCards.remove(at: 0)
         self.shape = temporaryCard["shape"] ?? "?"

@@ -33,6 +33,7 @@ class Game{
                 for index in selectedCardsIndices {
                     cards[index].isMatched = true
                 }
+                // Here I add logic whether a matching set should replace cards, or append them at the end
                 if ((cards.indices.filter({cards[$0].isVisible})).count < 13)
                     && (cards.count != (cards.indices.filter({cards[$0].isVisible})).count){
                     cards.swapAt(selectedCardsIndices[2], cards.count-1)
@@ -50,13 +51,7 @@ class Game{
                     cards.remove(at: selectedCardsIndices[2])
                     cards.remove(at: selectedCardsIndices[1])
                     cards.remove(at: selectedCardsIndices[0])
-
                 }
-
-                
-                    
-                    
-                
                 return true;
         }
         return false;

@@ -24,6 +24,8 @@ class ViewController: UIViewController {
     var add3MoreBtnIsActive: Bool {
         return (numberOfVisibleCards < 22 && game.cards.count != numberOfVisibleCards)
     }
+    
+    var game = Game()
 
     var score = 0
 
@@ -103,7 +105,10 @@ class ViewController: UIViewController {
     }
     
     @IBAction func NewGameBtn(_ sender: UIButton) {
- 
+        game = Game()
+        print(game.cards[0].identifier)
+        score = 0
+        updateViewFromModel()
     }
     
     @IBOutlet weak var ScoreLabel: UILabel!
@@ -120,7 +125,7 @@ class ViewController: UIViewController {
         }
     }
 
-    var game = Game()
+    
     
     
     private func updateViewFromModel(){
