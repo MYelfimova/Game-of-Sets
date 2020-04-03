@@ -10,7 +10,6 @@ import Foundation
 
 class Game{
     
-    //here I collect sets
     private(set) var cards: [Card] = []
     
     func checkMatching() -> Bool {
@@ -58,9 +57,7 @@ class Game{
     }
 
     init() {
-        for _ in 0..<81 {
-            self.cards.append(Card())
-        }
+        self.cards = FullDeck().cards
     }
     
     

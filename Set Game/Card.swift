@@ -14,41 +14,85 @@ class Card : CustomStringConvertible {
     var description: String {
         return "a \(self.color) \(self.shade) \(self.shape) of number: \(self.number)\n"
     }
-    
-    var deck = FullDeck()
+
     
     let identifier: Int
     var isMatched = false
     var isVisible = false
     var isSelected = false
-    
-    var shape: String
-    var color: String
-    var shade: String
-    var number: String
-    
-   
-    private static var identifierFactory = 0
 
-// now when I'm gonna be deleting matched in set cards with the identifier == the [n]
-    private static func getIdentifier() -> Int {
-        identifierFactory += 1
-        return identifierFactory
+    var number: Number
+    var shape: Shape
+    var color: Color
+    var shade: Shade
+    
+    enum Number: String, CustomStringConvertible {
+        case one = "1"
+        case two = "2"
+        case three = "3"
+        
+        var description: String { return self.rawValue }
+        
+        static var all: [Number] {
+            return [.one, .two, .three]
+        }
     }
     
-    init() {
-        self.identifier = Card.getIdentifier()
+    enum Shape: String, CustomStringConvertible {
+        case triangle = "▲"
+        case circle = "●"
+        case square = "■"
         
-        // This is to keep up with new game logic
-        if self.identifier == 81 {Card.identifierFactory = 0}
+        var description: String { return self.rawValue }
         
-        self.isVisible = self.identifier < 13 ? true : false
-        let temporaryCard = deck.allCards.remove(at: 0)
-        self.shape = temporaryCard["shape"] ?? "?"
-        self.color = temporaryCard["color"] ?? "?"
-        self.shade = temporaryCard["shade"] ?? "?"
-        self.number = temporaryCard["number"] ?? "?"
+        static var all: [Shape] {
+            return [.triangle, .circle, .square]
+        }
     }
+    
+    enum Shade: String, CustomStringConvertible {
+        case striped = "striped"
+        case filled = "filled"
+        case outline = "outline"
+        
+        var description: String { return self.rawValue }
+        
+        static var all: [Shade] {
+            return [.striped, .filled, .outline]
+        }
+    }
+    
+    enum Color: String, CustomStringConvertible {
+        case red = "red"
+        case yellow = "yellow"
+        case green = "green"
+        
+        var description: String { return self.rawValue }
+        
+        static var all: [Color] {
+            return [.red, .yellow, .green]
+        }
+    }
+    
+    private static var identifierFactory:[Int] = (Array(0...80)).shuffled()
+
+// Identifier is added in order to keep up with "new game" logic and to initialize first pile of visible cards
+    private static func getIdentifier() -> Int {
+        if identifierFactory.isEmpty {
+           identifierFactory = (Array(0...80)).shuffled()
+        }
+        return identifierFactory.remove(at: 0)
+    }
+    
+    init(number: Number, shape: Shape, shade: Shade, color: Color) {
+        self.identifier = Card.getIdentifier()
+        self.isVisible = self.identifier <= 11 ? true : false
+        self.shape = shape
+        self.color = color
+        self.shade = shade
+        self.number = number
+    }
+
 }
 
 

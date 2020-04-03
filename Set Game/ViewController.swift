@@ -9,7 +9,6 @@
 import UIKit
 import Foundation
 
-@IBDesignable
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,12 +26,9 @@ class ViewController: UIViewController {
     }
     
     var game = Game()
-
     var score = 0
-
     
     @IBOutlet var cardButtons: [UIButton]!
-    
     
     // so far only selection and deselection is implemented
     @IBAction func touchCard(_ sender: UIButton) {
@@ -125,10 +121,7 @@ class ViewController: UIViewController {
             cardButtons[index].layer.cornerRadius = 8.0
         }
     }
-
-    
-    
-    
+ 
     private func updateViewFromModel(){
         
         ScoreLabel.text = String("Score: \(score)")
@@ -157,41 +150,38 @@ class ViewController: UIViewController {
                 button.isHidden = false
                 button.isEnabled = true
 
-                let shape = card.shape
+                let shape = card.shape.rawValue
                 
                 let color: UIColor
                 switch card.color {
-                    case "red": color = UIColor.red
-                    case "yellow": color = UIColor.yellow
-                    case "green": color = UIColor.green
-                default: color = UIColor.gray
+                case .red: color = UIColor.red
+                case .yellow: color = UIColor.yellow
+                case .green: color = UIColor.green
                 }
                 
                 var attributes: [NSMutableAttributedString.Key: Any]
                 switch card.shade {
-                case "striped":
+                case .striped:
                     attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
                         .strokeColor: color,
                         .strokeWidth: -0.4,
                         .foregroundColor: color.withAlphaComponent(0.5),
                         .font: UIFont.boldSystemFont(ofSize: 54)
                     ]
-                case "filled":
+                case .filled:
                     attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
                         //.strokeColor: UIColor.white,
                         .foregroundColor: color,
                         .font: UIFont.boldSystemFont(ofSize: 54)
                     ]
-                case "outline":
+                case .outline:
                     attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
                         .strokeColor: color,
                         .strokeWidth: 4,
                         .foregroundColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
                         .font: UIFont.boldSystemFont(ofSize: 54)
                     ]
-                default: attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1)]
                 }
-                
 
                 let attributedString = NSAttributedString(string: shape, attributes: attributes)
                 

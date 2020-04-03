@@ -10,27 +10,20 @@ import Foundation
 import UIKit
 
 class FullDeck {
-    
-    static var shape = ["▲","●","■"]
-    static var color = ["red", "yellow", "green"]
-    static var shade = ["striped", "filled", "outline"]
-    static var number = ["1", "2", "3"]
-    
 
-    var allCards: [Dictionary<String, String>] = []
-    
+    var cards = [Card]()
     
     init() {
-        for i in FullDeck.shape {
-            for j in FullDeck.color {
-                for k in FullDeck.shade {
-                    for h in FullDeck.number {
-                        self.allCards.append(["shape": i, "color": j, "shade": k, "number": h])
+        for number in Card.Number.all {
+            for shape in Card.Shape.all {
+                for shade in Card.Shade.all {
+                    for color in Card.Color.all {
+                        cards.append(Card (number: number, shape: shape, shade: shade, color: color))
                     }
                 }
             }
         }
-        self.allCards.shuffle()
-        
+        self.cards = self.cards.sorted(by: {$0.identifier < $1.identifier})
     }
+
 }
