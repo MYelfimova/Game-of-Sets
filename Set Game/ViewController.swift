@@ -9,6 +9,7 @@
 import UIKit
 import Foundation
 
+@IBDesignable
 class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()

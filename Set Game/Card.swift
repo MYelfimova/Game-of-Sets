@@ -27,6 +27,7 @@ class Card : CustomStringConvertible {
     var shade: String
     var number: String
     
+   
     private static var identifierFactory = 0
 
 // now when I'm gonna be deleting matched in set cards with the identifier == the [n]
