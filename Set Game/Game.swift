@@ -27,7 +27,11 @@ class Game{
             ||
             ((selectedCards[0].shade == selectedCards[1].shade) && (selectedCards[0].shade == selectedCards[2].shade) && (selectedCards[1].shade == selectedCards[2].shade))
             ||
-            ((selectedCards[0].shade != selectedCards[1].shade) && (selectedCards[0].shade != selectedCards[2].shade) && (selectedCards[1].shade != selectedCards[2].shade)))
+            ((selectedCards[0].shade != selectedCards[1].shade) && (selectedCards[0].shade != selectedCards[2].shade) && (selectedCards[1].shade != selectedCards[2].shade))
+            ||
+            ((selectedCards[0].number == selectedCards[1].number) && (selectedCards[0].number == selectedCards[2].number) && (selectedCards[1].number == selectedCards[2].number))
+            ||
+            ((selectedCards[0].number != selectedCards[1].number) && (selectedCards[0].number != selectedCards[2].number) && (selectedCards[1].number != selectedCards[2].number)))
             {
                 for index in selectedCardsIndices {
                     cards[index].isMatched = true

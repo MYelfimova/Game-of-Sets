@@ -16,6 +16,8 @@
 		4C04D9E6240D3AA300768AB6 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04D9E5240D3AA300768AB6 /* Card.swift */; };
 		4C04D9E8240D3B2000768AB6 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04D9E7240D3B2000768AB6 /* Game.swift */; };
 		4C04D9EC2413FBEE00768AB6 /* FullDeck.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C04D9EB2413FBED00768AB6 /* FullDeck.swift */; };
+		4C3F4F47243B949600C514C7 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3F4F46243B949600C514C7 /* Grid.swift */; };
+		4C3F4F49243B993300C514C7 /* deckOfCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C3F4F48243B993300C514C7 /* deckOfCardsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		4C04D9E5240D3AA300768AB6 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		4C04D9E7240D3B2000768AB6 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		4C04D9EB2413FBED00768AB6 /* FullDeck.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullDeck.swift; sourceTree = "<group>"; };
+		4C3F4F46243B949600C514C7 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		4C3F4F48243B993300C514C7 /* deckOfCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = deckOfCardsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +66,16 @@
 		4C04D9CF240D37FC00768AB6 /* Set Game */ = {
 			isa = PBXGroup;
 			children = (
-				4C04D9E7240D3B2000768AB6 /* Game.swift */,
 				4C04D9E5240D3AA300768AB6 /* Card.swift */,
 				4C04D9EB2413FBED00768AB6 /* FullDeck.swift */,
+				4C04D9E7240D3B2000768AB6 /* Game.swift */,
+				4C3F4F48243B993300C514C7 /* deckOfCardsView.swift */,
 				4C04D9D4240D37FC00768AB6 /* ViewController.swift */,
 				4C04D9D6240D37FC00768AB6 /* Main.storyboard */,
 				4C04D9D9240D380400768AB6 /* Assets.xcassets */,
 				4C04D9DE240D380400768AB6 /* Info.plist */,
 				4C04D9E4240D382C00768AB6 /* Supporting Files */,
+				4C3F4F46243B949600C514C7 /* Grid.swift */,
 			);
 			path = "Set Game";
 			sourceTree = "<group>";
@@ -159,7 +165,9 @@
 				4C04D9EC2413FBEE00768AB6 /* FullDeck.swift in Sources */,
 				4C04D9E8240D3B2000768AB6 /* Game.swift in Sources */,
 				4C04D9D1240D37FC00768AB6 /* AppDelegate.swift in Sources */,
+				4C3F4F49243B993300C514C7 /* deckOfCardsView.swift in Sources */,
 				4C04D9D3240D37FC00768AB6 /* SceneDelegate.swift in Sources */,
+				4C3F4F47243B949600C514C7 /* Grid.swift in Sources */,
 				4C04D9E6240D3AA300768AB6 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
