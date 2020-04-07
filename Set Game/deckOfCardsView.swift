@@ -26,7 +26,7 @@ class deckOfCardsView: UIView {
         
        // grid.frame.size.width = self.bounds
         grid.frame = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y, width: self.bounds.width, height: self.bounds.height)
-        grid.cellCount = 24
+        //grid.cellCount = 24
         
         //print(grid[1])
         
@@ -36,9 +36,12 @@ class deckOfCardsView: UIView {
             
             UIColor.white.setFill()
             path.fill()
+            
             path.lineWidth = 1.25
-            UIColor.gray.setStroke()
+            if game.cards[i].isSelected { UIColor.blue.setStroke() }
+            else {UIColor.gray.setStroke()}
             path.stroke()
+
 
             let context = UIGraphicsGetCurrentContext()!
             context.saveGState()

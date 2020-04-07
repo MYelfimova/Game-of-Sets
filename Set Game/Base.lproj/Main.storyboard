@@ -18,10 +18,14 @@
                             <view contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="jFj-p3-DrX" customClass="deckOfCardsView" customModule="Set_Game" customModuleProvider="target">
                                 <rect key="frame" x="10" y="54" width="394" height="694"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" priority="750" constant="2500" id="fJX-3y-kUI"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" priority="750" constant="700" id="hc1-up-hfn"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="av5-fo-7Ic" appends="YES" id="Nx3-bb-F9g"/>
+                                </connections>
                             </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="S7T-xY-dPa">
                                 <rect key="frame" x="37.5" y="758" width="339" height="104"/>
@@ -75,9 +79,16 @@
                     <connections>
                         <outlet property="Deal3MoreCardsButton" destination="pRO-Ow-Vma" id="A9y-ny-Ffx"/>
                         <outlet property="ScoreLabel" destination="jM3-Oi-4o7" id="ngF-wD-afc"/>
+                        <outlet property="deckOfCards" destination="jFj-p3-DrX" id="xqB-Po-4wQ"/>
+                        <outletCollection property="deckView" destination="jFj-p3-DrX" collectionClass="NSMutableArray" id="qDR-o4-rUz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="av5-fo-7Ic">
+                    <connections>
+                        <action selector="tapOnCard:" destination="BYZ-38-t0r" id="q6I-GC-mPL"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="137.68115942028987" y="112.5"/>
         </scene>

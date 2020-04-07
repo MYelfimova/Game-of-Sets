@@ -10,23 +10,43 @@ import UIKit
 import Foundation
 
 class ViewController: UIViewController {
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //updateViewFromModel()
     }
     
-//    var numberOfVisibleCards: Int {
-//        get {
-//            return (game.cards.indices.filter({game.cards[$0].isVisible})).count
-//        }
-//    }
-//
-//    var add3MoreBtnIsActive: Bool {
-//        return (numberOfVisibleCards < 22 && game.cards.count != numberOfVisibleCards)
-//    }
-//
-    var game = Game()
+    var deck = deckOfCardsView()
+    //lazy var game = deck.game
     var score = 0
+    
+
+    
+    @IBOutlet var deckView: [deckOfCardsView]!
+    
+    @IBOutlet weak var deckOfCards: deckOfCardsView!
+    
+    @IBAction func tapOnCard(_ sender: UITapGestureRecognizer) {
+        // check if this touch is inside any frame - this way i will know which button triggered tap
+        switch sender.state {
+        case .ended: deck.game.cards[1].isSelected = !deck.game.cards[1].isSelected
+        default: break
+        }
+    }
+    
+    
+    var numberOfVisibleCards: Int {
+        get {
+            return deck.grid.cellCount
+            //return (deck.game.cards.indices.filter({deck.game.cards[$0].isVisible})).count
+        }
+    }
+
+    var add3MoreBtnIsActive: Bool {
+        return (numberOfVisibleCards < 30 && deck.game.cards.count != numberOfVisibleCards)
+    }
+//
+
 //
 //    @IBOutlet var cardButtons: [UIButton]!
 //
@@ -93,20 +113,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var Deal3MoreCardsButton: UIButton!
 
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
+//        let count = deck.grid.cellCount
 //        if add3MoreBtnIsActive {
-//            game.cards[numberOfVisibleCards].isVisible = true
-//            game.cards[numberOfVisibleCards].isVisible = true
-//            game.cards[numberOfVisibleCards].isVisible = true
+//            game.cards[count].isVisible = true
+//            game.cards[count+1].isVisible = true
+//            game.cards[count+2].isVisible = true
 //        }
-        //updateViewFromModel()
+        if add3MoreBtnIsActive {
+            deckOfCards.grid.cellCount += 3
+            deckOfCards.setNeedsLayout()
+            deckOfCards.setNeedsDisplay()
+        }
+
     }
 
-    @IBAction func NewGameBtn(_ sender: UIButton) {
-        game = Game()
-        print(game.cards[0].identifier)
-        score = 0
-        //updateViewFromModel()
-    }
+//    @IBAction func NewGameBtn(_ sender: UIButton) {
+//        var game = Game()
+//        score = 0
+//        //updateViewFromModel()
+//    }
 
     @IBOutlet weak var ScoreLabel: UILabel!
 
