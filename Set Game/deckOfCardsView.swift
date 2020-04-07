@@ -28,15 +28,15 @@ class deckOfCardsView: UIView {
         grid.frame = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y, width: self.bounds.width, height: self.bounds.height)
         grid.cellCount = 24
         
-        print(grid[1])
+        //print(grid[1])
+        
         for i in 0..<grid.cellCount {
             let path = UIBezierPath(roundedRect: grid[i]!, cornerRadius: cornerRadius)
             
             
-
             UIColor.white.setFill()
             path.fill()
-            path.lineWidth = 1.0
+            path.lineWidth = 1.25
             UIColor.gray.setStroke()
             path.stroke()
 
@@ -98,8 +98,8 @@ class deckOfCardsView: UIView {
         }
 
         // Reshape and transform the squiggle
-        path.apply(CGAffineTransform(scaleX: CGFloat(10*bounds.size.width/12/1134.423), y: CGFloat(4*bounds.size.height/12/828.077)))
-        path.apply(CGAffineTransform(translationX: CGFloat(bounds.origin.x - 1.465 * bounds.size.height/828.077), y: CGFloat(bounds.origin.y - 194.822 * bounds.size.width/1134.423)))
+        path.apply(CGAffineTransform(scaleX: CGFloat(9*bounds.size.width/12/1134.423), y: CGFloat(4*bounds.size.height/12/828.077)))
+        path.apply(CGAffineTransform(translationX: CGFloat(bounds.origin.x - 1.465 * bounds.size.height/828.077 + 0.5*bounds.size.width/12), y: CGFloat(bounds.origin.y - 194.822 * bounds.size.width/1134.423)))
         
         print("drawing a squiggle at \(bounds.origin.x), \(bounds.origin.y)")
         
@@ -109,7 +109,7 @@ class deckOfCardsView: UIView {
         // make sure this function returns shape with sizes: path.width = 0.8*bounds.width (or 10/12), and path.height = path.width/2
         //plus make sure I'm creating the shape on position (origin.x, origin.y)
         
-        let path = UIBezierPath(roundedRect: CGRect(x: bounds.origin.x, y: bounds.origin.y, width: 10*bounds.size.width/12, height: (8*bounds.size.width/12)/2), cornerRadius: 60)
+        let path = UIBezierPath(roundedRect: CGRect(x: bounds.origin.x + 0.5*bounds.size.width/12, y: bounds.origin.y, width: 9*bounds.size.width/12, height: (8*bounds.size.width/12)/2), cornerRadius: 60)
         
         print("drawing an oval at \(bounds.origin.x), \(bounds.origin.y)")
         
@@ -120,9 +120,9 @@ class deckOfCardsView: UIView {
         //plus make sure I'm creating the shape on position (origin.x, origin.y)
         
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: bounds.origin.x + bounds.size.width/12, y: bounds.origin.y + bounds.size.height/2))
+        path.move(to: CGPoint(x: bounds.origin.x + 1.5 * bounds.size.width/12, y: bounds.origin.y + bounds.size.height/2))
         path.addLine(to: CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + 5*bounds.size.height/12))
-        path.addLine(to: CGPoint(x: bounds.origin.x + 11*bounds.size.width/12, y: bounds.origin.y + bounds.size.height/2))
+        path.addLine(to: CGPoint(x: bounds.origin.x + 10.5*bounds.size.width/12, y: bounds.origin.y + bounds.size.height/2))
         path.addLine(to: CGPoint(x: bounds.origin.x + bounds.size.width/2, y: bounds.origin.y + 7*bounds.size.height/12))
         path.close()
 
@@ -194,7 +194,7 @@ class deckOfCardsView: UIView {
             let bounds = myPath.bounds
 
             let stripes = UIBezierPath()
-            for x in stride(from: 0, to: bounds.size.width, by: bounds.size.width/30){
+            for x in stride(from: 0, to: bounds.size.width, by: bounds.size.width/26){
                 stripes.move(to: CGPoint(x: bounds.origin.x + x, y: bounds.origin.y ))
                 stripes.addLine(to: CGPoint(x: bounds.origin.x + x, y: bounds.origin.y + bounds.size.height ))
             }
@@ -202,7 +202,7 @@ class deckOfCardsView: UIView {
             color.setStroke()
             stripes.lineWidth = 1
 
-            myPath.lineWidth = 5.0
+            myPath.lineWidth = 2.0
             
             let context = UIGraphicsGetCurrentContext()!
             context.saveGState()
@@ -215,10 +215,10 @@ class deckOfCardsView: UIView {
             
         case "filled":
             color.setFill()
-            color.setStroke()
-            path.lineWidth = 2.0
+            //color.setStroke()
+            //path.lineWidth = 2.0
             path.fill()
-            path.stroke()
+            //path.stroke()
             
         default: return;
             
