@@ -80,7 +80,6 @@
                         <outlet property="Deal3MoreCardsButton" destination="pRO-Ow-Vma" id="A9y-ny-Ffx"/>
                         <outlet property="ScoreLabel" destination="jM3-Oi-4o7" id="ngF-wD-afc"/>
                         <outlet property="deckOfCards" destination="jFj-p3-DrX" id="xqB-Po-4wQ"/>
-                        <outletCollection property="deckView" destination="jFj-p3-DrX" collectionClass="NSMutableArray" id="qDR-o4-rUz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

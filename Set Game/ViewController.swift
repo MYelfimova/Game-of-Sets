@@ -15,33 +15,47 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    var deck = deckOfCardsView()
+    var tapPosition: CGPoint = CGPoint()
     var score = 0
-    
-
-    
-    @IBOutlet var deckView: [deckOfCardsView]!
-    
     @IBOutlet weak var deckOfCards: deckOfCardsView!
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: deckOfCards)
+            tapPosition = position
+            print(position)
+        }
+    }
+    
+    
     @IBAction func tapOnCard(_ sender: UITapGestureRecognizer) {
-        // check if this touch is inside any frame - this way i will know which button triggered tap
+
         switch sender.state {
-        case .ended: deck.game.cards[1].isSelected = !deck.game.cards[1].isSelected
+        case .began, .ended:
+            for i in 0..<deckOfCards.grid.cellCount {
+                if deckOfCards.grid[i]!.contains(tapPosition) {
+                    deckOfCards.game.cards[i].isSelected = !deckOfCards.game.cards[i].isSelected
+                   // print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
+                }
+                print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
+            }
+            
         default: break
         }
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
     }
     
     
     var numberOfVisibleCards: Int {
         get {
             //return deck.grid.cellCount
-            return (deck.game.cards.indices.filter({deck.game.cards[$0].isVisible})).count
+            return (deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible})).count
         }
     }
 
     var add3MoreBtnIsActive: Bool {
-        return (numberOfVisibleCards < 30 && deck.game.cards.count != numberOfVisibleCards)
+        return (numberOfVisibleCards < 30 && deckOfCards.game.cards.count != numberOfVisibleCards)
     }
 
 
@@ -124,11 +138,11 @@ class ViewController: UIViewController {
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
 
         let count = deckOfCards.grid.cellCount
-        deck.game.cards[count].isVisible = true
-        deck.game.cards[count+1].isVisible = true
-        deck.game.cards[count+2].isVisible = true
+        deckOfCards.game.cards[count].isVisible = true
+        deckOfCards.game.cards[count+1].isVisible = true
+        deckOfCards.game.cards[count+2].isVisible = true
         deckOfCards.grid.cellCount += 3
-        
+        print(deckOfCards.game.cards)
         updateButtonStatus()
         
         print("\n Status cheof which variable I see:\n")

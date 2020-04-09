@@ -37,8 +37,8 @@ class deckOfCardsView: UIView {
             UIColor.white.setFill()
             path.fill()
             
-            path.lineWidth = 1.25
-            if game.cards[i].isSelected { UIColor.blue.setStroke() }
+            path.lineWidth = 1
+            if game.cards[i].isSelected { UIColor.blue.setStroke(); path.lineWidth = 4.5 }
             else {UIColor.gray.setStroke()}
             path.stroke()
 
