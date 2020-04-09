@@ -17,21 +17,21 @@ class Game{
         let selectedCardsIndices = cards.indices.filter({cards[$0].isSelected})
         let selectedCards = cards.filter({$0.isSelected})
         
-        if (((selectedCards[0].shape == selectedCards[1].shape) && (selectedCards[0].shape == selectedCards[2].shape) && (selectedCards[1].shape == selectedCards[2].shape))
+        if ((((selectedCards[0].shape == selectedCards[1].shape) && (selectedCards[0].shape == selectedCards[2].shape) && (selectedCards[1].shape == selectedCards[2].shape))
             ||
-            ((selectedCards[0].shape != selectedCards[1].shape) && (selectedCards[0].shape != selectedCards[2].shape) && (selectedCards[1].shape != selectedCards[2].shape))
+            ((selectedCards[0].shape != selectedCards[1].shape) && (selectedCards[0].shape != selectedCards[2].shape) && (selectedCards[1].shape != selectedCards[2].shape)))
+            &&
+            (((selectedCards[0].color == selectedCards[1].color) && (selectedCards[0].color == selectedCards[2].color) && (selectedCards[1].color == selectedCards[2].color))
             ||
-            ((selectedCards[0].color == selectedCards[1].color) && (selectedCards[0].color == selectedCards[2].color) && (selectedCards[1].color == selectedCards[2].color))
+            ((selectedCards[0].color != selectedCards[1].color) && (selectedCards[0].color != selectedCards[2].color) && (selectedCards[1].color != selectedCards[2].color)))
+            &&
+            (((selectedCards[0].shade == selectedCards[1].shade) && (selectedCards[0].shade == selectedCards[2].shade) && (selectedCards[1].shade == selectedCards[2].shade))
             ||
-            ((selectedCards[0].color != selectedCards[1].color) && (selectedCards[0].color != selectedCards[2].color) && (selectedCards[1].color != selectedCards[2].color))
+            ((selectedCards[0].shade != selectedCards[1].shade) && (selectedCards[0].shade != selectedCards[2].shade) && (selectedCards[1].shade != selectedCards[2].shade)))
+            &&
+            (((selectedCards[0].number == selectedCards[1].number) && (selectedCards[0].number == selectedCards[2].number) && (selectedCards[1].number == selectedCards[2].number))
             ||
-            ((selectedCards[0].shade == selectedCards[1].shade) && (selectedCards[0].shade == selectedCards[2].shade) && (selectedCards[1].shade == selectedCards[2].shade))
-            ||
-            ((selectedCards[0].shade != selectedCards[1].shade) && (selectedCards[0].shade != selectedCards[2].shade) && (selectedCards[1].shade != selectedCards[2].shade))
-            ||
-            ((selectedCards[0].number == selectedCards[1].number) && (selectedCards[0].number == selectedCards[2].number) && (selectedCards[1].number == selectedCards[2].number))
-            ||
-            ((selectedCards[0].number != selectedCards[1].number) && (selectedCards[0].number != selectedCards[2].number) && (selectedCards[1].number != selectedCards[2].number)))
+            ((selectedCards[0].number != selectedCards[1].number) && (selectedCards[0].number != selectedCards[2].number) && (selectedCards[1].number != selectedCards[2].number))))
             {
                 for index in selectedCardsIndices {
                     cards[index].isMatched = true

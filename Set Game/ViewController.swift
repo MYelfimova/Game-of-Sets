@@ -14,39 +14,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
-    var tapPosition: CGPoint = CGPoint()
-    var score = 0
-    @IBOutlet weak var deckOfCards: deckOfCardsView!
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let touch = touches.first {
-            let position = touch.location(in: deckOfCards)
-            tapPosition = position
-            print(position)
-        }
-    }
-    
-    
-    @IBAction func tapOnCard(_ sender: UITapGestureRecognizer) {
-
-        switch sender.state {
-        case .began, .ended:
-            for i in 0..<deckOfCards.grid.cellCount {
-                if deckOfCards.grid[i]!.contains(tapPosition) {
-                    deckOfCards.game.cards[i].isSelected = !deckOfCards.game.cards[i].isSelected
-                   // print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
-                }
-                print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
-            }
-            
-        default: break
-        }
-        deckOfCards.setNeedsLayout()
-        deckOfCards.setNeedsDisplay()
-    }
-    
-    
     var numberOfVisibleCards: Int {
         get {
             //return deck.grid.cellCount
@@ -57,71 +24,86 @@ class ViewController: UIViewController {
     var add3MoreBtnIsActive: Bool {
         return (numberOfVisibleCards < 30 && deckOfCards.game.cards.count != numberOfVisibleCards)
     }
+        
+    var selectedCardsNumber: Int {
+        get {
+            return (deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected})).count
+        }
+    }
+    
+    var lastSelectedIndex: Int = -1
+    var tapPosition: CGPoint = CGPoint()
+    var score = 0
+    
+    @IBOutlet weak var ScoreLabel: UILabel!
+    @IBOutlet weak var deckOfCards: deckOfCardsView!
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        if let touch = touches.first {
+            let position = touch.location(in: deckOfCards)
+            tapPosition = position
+            print(position)
+        }
+    }
+    
+    @IBAction func tapOnCard(_ sender: UITapGestureRecognizer) {
 
+        switch sender.state {
+        case .began, .ended:
+            for i in 0..<deckOfCards.grid.cellCount {
+                if deckOfCards.grid[i]!.contains(tapPosition) {
+                    deckOfCards.game.cards[i].isSelected = !deckOfCards.game.cards[i].isSelected
+                   lastSelectedIndex = i
+                }
+                //print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
+            }
+            
+        default: break
+        }
+        
+        checkIfMatched()
+        
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
+    }
+    
+    func checkIfMatched() {
+        switch selectedCardsNumber {
+        case 1, 2 :
+            print("cards selected indices without matching func: \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected}))")
 
-//
-//    @IBOutlet var cardButtons: [UIButton]!
-//
-//    // so far only selection and deselection is implemented
-//    @IBAction func touchCard(_ sender: UIButton) {
-//        print("total number of cards left from the deck: \(game.cards.count)\n")
-//        // TODO: with this logic I should implement in choose card logic REMOVING MATCHED cards from the game.card array!
-//        if let cardNumber = cardButtons.firstIndex(of: sender){
-//
-//            if game.cards[cardNumber].isSelected {
-//                game.cards[cardNumber].isSelected = false
-//                score -= 1
-//            } else {
-//                game.cards[cardNumber].isSelected = true
-//            }
-//            //game.cards[cardNumber].isSelected = game.cards[cardNumber].isSelected ? false : true // SELECTION LOGIC
-//
-//            let selectedCardsIndices = game.cards.indices.filter({game.cards[$0].isSelected})
-//
-//            doSelection(indices: selectedCardsIndices) // SELECTION LOGIC
-//
-//            switch selectedCardsIndices.count {
-//            case 1, 2 :
-//
-//                print("1 or 2 cards selected")
-//                print("cards selected indices: \(selectedCardsIndices)")
-//                print("cards VISIBLE indices:  \(numberOfVisibleCards)\n")
-//
-//            case 3:
-//                print("3 cards selected")
-//                print("cards selected indices before matching func: \(selectedCardsIndices)")
-//                print("cards VISIBLE indices before matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))")
-//                if (game.checkMatching()) {
-//                    doSelection(indices: [])
-//                    score += 3
-//                    print("match was made")
-//                }
-//                print("cards selected indices after matching func: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-//                print("cards VISIBLE indices after matching:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
-//
-//            case 4:
-//                print("4 cards selected")
-//                print("cards selected indices : \(selectedCardsIndices)")
-//                for index in selectedCardsIndices {
-//                    game.cards[index].isSelected = false
-//                }
-//                game.cards[cardNumber].isSelected = true
-//                doSelection(indices: [cardNumber])
-//                score -= 5
-//
-//                print("cards selected indices after deselection: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-//                print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
-//
-//            default:
-//                print("nothing selected so far")
-//                 print("cards selected indices : \(selectedCardsIndices) + double-check: \(game.cards.indices.filter({game.cards[$0].isSelected}))")
-            //print("cards VISIBLE indices:  \(game.cards.indices.filter({game.cards[$0].isVisible}))\n")
-//            }
-//
-//            updateViewFromModel()
-//        }
-//    }
-//
+        case 3:
+            print("cards selected indices after matching func: \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected}))")
+            print("cards VISIBLE indices before matching:  \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible}))")
+            if (deckOfCards.game.checkMatching()) {
+                score += 3
+                deckOfCards.grid.cellCount = (deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible})).count
+                print("match was made")
+            }
+            print("cards selected indices after matching func: \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected}))")
+            print("cards VISIBLE indices after matching:  \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible}))\n")
+
+        case 4:
+            print("4 cards selected")
+            print("cards selected indices before deselection: \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected}))")
+            print("cards VISIBLE indices before deselection:  \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible}))\n")
+            
+            for i in 0..<deckOfCards.grid.cellCount {
+                if lastSelectedIndex != i {
+                   deckOfCards.game.cards[i].isSelected = false
+                }
+            }
+            score -= 5
+
+            print("cards selected indices after deselection: \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isSelected}))")
+            print("cards VISIBLE indices after deselection:  \(deckOfCards.game.cards.indices.filter({deckOfCards.game.cards[$0].isVisible}))\n")
+        default: return
+        }
+        updateButtonStatus()
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
+    }
+    
     @IBOutlet weak var Deal3MoreCardsButton: UIButton!
     
     private func updateButtonStatus() {
@@ -133,6 +115,8 @@ class ViewController: UIViewController {
             Deal3MoreCardsButton.isEnabled = false
             Deal3MoreCardsButton.setTitleColor(UIColor.gray, for: UIControl.State.normal)
         }
+        
+        ScoreLabel.text = String("Score: \(score)")
     }
 
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
@@ -142,105 +126,26 @@ class ViewController: UIViewController {
         deckOfCards.game.cards[count+1].isVisible = true
         deckOfCards.game.cards[count+2].isVisible = true
         deckOfCards.grid.cellCount += 3
-        print(deckOfCards.game.cards)
         updateButtonStatus()
         
-        print("\n Status cheof which variable I see:\n")
-        print("deckOfCards.grid.cellCount \(deckOfCards.grid.cellCount)")
-        print("numberOfVisibleCards: \(numberOfVisibleCards)")
         deckOfCards.setNeedsLayout()
         deckOfCards.setNeedsDisplay()
 
     }
 
-//    @IBAction func NewGameBtn(_ sender: UIButton) {
-//        var game = Game()
-//        score = 0
-//        //updateViewFromModel()
-//    }
+    @IBAction func NewGameBtn(_ sender: UIButton) {
+        
+        deckOfCards.grid = Grid(layout: Grid.Layout.aspectRatio(CGFloat(0.625)))
+        deckOfCards.game = Game()
+        
+        score = 0
+        lastSelectedIndex = -1
+        tapPosition = CGPoint()
+        
+        updateButtonStatus()
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
+    }
 
-    @IBOutlet weak var ScoreLabel: UILabel!
-
-//    private func doSelection(indices: [Int]) {
-//        for card in cardButtons{
-//            card.layer.borderWidth = 0
-//            card.layer.cornerRadius = 0
-//        }
-//        for index in indices {
-//            cardButtons[index].layer.borderWidth = 3.0
-//            cardButtons[index].layer.borderColor = UIColor.gray.cgColor
-//            cardButtons[index].layer.cornerRadius = 8.0
-//        }
-//    }
-//
-//    private func updateViewFromModel(){
-//
-//        ScoreLabel.text = String("Score: \(score)")
-//
-//        if add3MoreBtnIsActive{
-//            Deal3MoreCardsButton.isEnabled = true
-//            Deal3MoreCardsButton.setTitleColor(UIColor.green, for: UIControl.State.normal)
-//        } else {
-//            Deal3MoreCardsButton.isEnabled = false
-//            Deal3MoreCardsButton.setTitleColor(UIColor.gray, for: UIControl.State.normal)
-//        }
-//
-//        let cardsVisible = game.cards.filter({$0.isVisible})
-//        for index in cardButtons.indices {
-//
-//            if (index) >= numberOfVisibleCards {
-//                let button = cardButtons[index]
-//                button.isHidden = true
-//                button.isEnabled = false
-//            }
-//            else {
-//                // here I show that indices of logic cards and UI card MATCH!
-//                let button = cardButtons[index]
-//                let card = cardsVisible[index]
-//
-//                button.isHidden = false
-//                button.isEnabled = true
-//
-//                let shape = card.shape.rawValue
-//
-//                let color: UIColor
-//                switch card.color {
-//                case .red: color = UIColor.red
-//                case .yellow: color = UIColor.yellow
-//                case .green: color = UIColor.green
-//                }
-//
-//                var attributes: [NSMutableAttributedString.Key: Any]
-//                switch card.shade {
-//                case .striped:
-//                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-//                        .strokeColor: color,
-//                        .strokeWidth: -0.4,
-//                        .foregroundColor: color.withAlphaComponent(0.5),
-//                        .font: UIFont.boldSystemFont(ofSize: 54)
-//                    ]
-//                case .filled:
-//                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-//                        //.strokeColor: UIColor.white,
-//                        .foregroundColor: color,
-//                        .font: UIFont.boldSystemFont(ofSize: 54)
-//                    ]
-//                case .outline:
-//                    attributes = [.backgroundColor: #colorLiteral(red: 0.9309860233, green: 0.9309860233, blue: 0.9309860233, alpha: 1),
-//                        .strokeColor: color,
-//                        .strokeWidth: 4,
-//                        .foregroundColor: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1),
-//                        .font: UIFont.boldSystemFont(ofSize: 54)
-//                    ]
-//                }
-//
-//                let attributedString = NSAttributedString(string: shape, attributes: attributes)
-//
-//                button.setAttributedTitle(attributedString, for: UIControl.State.normal)
-//            }
-//        }
-//
-//
-//    }
 }
 

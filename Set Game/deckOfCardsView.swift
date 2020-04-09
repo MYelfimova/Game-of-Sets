@@ -104,7 +104,7 @@ class deckOfCardsView: UIView {
         path.apply(CGAffineTransform(scaleX: CGFloat(9*bounds.size.width/12/1134.423), y: CGFloat(4*bounds.size.height/12/828.077)))
         path.apply(CGAffineTransform(translationX: CGFloat(bounds.origin.x - 1.465 * bounds.size.height/828.077 + 0.5*bounds.size.width/12), y: CGFloat(bounds.origin.y - 194.822 * bounds.size.width/1134.423)))
         
-        print("drawing a squiggle at \(bounds.origin.x), \(bounds.origin.y)")
+        //print("drawing a squiggle at \(bounds.origin.x), \(bounds.origin.y)")
         
         return path
     }
@@ -114,7 +114,7 @@ class deckOfCardsView: UIView {
         
         let path = UIBezierPath(roundedRect: CGRect(x: bounds.origin.x + 0.5*bounds.size.width/12, y: bounds.origin.y, width: 9*bounds.size.width/12, height: (8*bounds.size.width/12)/2), cornerRadius: 60)
         
-        print("drawing an oval at \(bounds.origin.x), \(bounds.origin.y)")
+        //print("drawing an oval at \(bounds.origin.x), \(bounds.origin.y)")
         
         return path
     }
@@ -131,7 +131,7 @@ class deckOfCardsView: UIView {
 
         path.apply(CGAffineTransform(translationX: CGFloat(-bounds.size.width/12), y: CGFloat(-5*bounds.size.height/12)))
 
-        print("drawing a diamond at \(bounds.origin.x), \(bounds.origin.y)")
+        //print("drawing a diamond at \(bounds.origin.x), \(bounds.origin.y)")
         
         return path
     }
@@ -143,11 +143,11 @@ class deckOfCardsView: UIView {
         var path = UIBezierPath()
         switch shape {
         case "oval": path = drawOval(bounds: bounds)
-                print("\(number) \(shade) oval(s)")
+                //print("\(number) \(shade) oval(s)")
             case "squiggle": path = drawSquiggle(bounds: bounds)
-                print("\(number) \(shade) squiggle(s)")
+                //print("\(number) \(shade) squiggle(s)")
             case "diamond": path = drawDiamond(bounds: bounds)
-                print("\(number) \(shade) diamond(s)")
+                //print("\(number) \(shade) diamond(s)")
         default: path = UIBezierPath()
         }
     
