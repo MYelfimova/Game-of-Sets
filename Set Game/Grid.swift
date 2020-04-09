@@ -48,7 +48,7 @@ struct Grid
     init(layout: Layout, frame: CGRect = CGRect.zero) {
         self.frame = frame
         self.layout = layout
-        self.cellCount = 15
+        self.cellCount = 12
         recalculate()
     }
     

@@ -13,11 +13,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //updateViewFromModel()
     }
     
     var deck = deckOfCardsView()
-    //lazy var game = deck.game
     var score = 0
     
 
@@ -37,15 +35,15 @@ class ViewController: UIViewController {
     
     var numberOfVisibleCards: Int {
         get {
-            return deck.grid.cellCount
-            //return (deck.game.cards.indices.filter({deck.game.cards[$0].isVisible})).count
+            //return deck.grid.cellCount
+            return (deck.game.cards.indices.filter({deck.game.cards[$0].isVisible})).count
         }
     }
 
     var add3MoreBtnIsActive: Bool {
         return (numberOfVisibleCards < 30 && deck.game.cards.count != numberOfVisibleCards)
     }
-//
+
 
 //
 //    @IBOutlet var cardButtons: [UIButton]!
@@ -111,19 +109,33 @@ class ViewController: UIViewController {
 //    }
 //
     @IBOutlet weak var Deal3MoreCardsButton: UIButton!
+    
+    private func updateButtonStatus() {
+        if add3MoreBtnIsActive {
+            Deal3MoreCardsButton.isEnabled = true
+            Deal3MoreCardsButton.setTitleColor(UIColor.green, for: UIControl.State.normal)
+
+        }else {
+            Deal3MoreCardsButton.isEnabled = false
+            Deal3MoreCardsButton.setTitleColor(UIColor.gray, for: UIControl.State.normal)
+        }
+    }
 
     @IBAction func Deal3MoreCards(_ sender: UIButton) {
-//        let count = deck.grid.cellCount
-//        if add3MoreBtnIsActive {
-//            game.cards[count].isVisible = true
-//            game.cards[count+1].isVisible = true
-//            game.cards[count+2].isVisible = true
-//        }
-        if add3MoreBtnIsActive {
-            deckOfCards.grid.cellCount += 3
-            deckOfCards.setNeedsLayout()
-            deckOfCards.setNeedsDisplay()
-        }
+
+        let count = deckOfCards.grid.cellCount
+        deck.game.cards[count].isVisible = true
+        deck.game.cards[count+1].isVisible = true
+        deck.game.cards[count+2].isVisible = true
+        deckOfCards.grid.cellCount += 3
+        
+        updateButtonStatus()
+        
+        print("\n Status cheof which variable I see:\n")
+        print("deckOfCards.grid.cellCount \(deckOfCards.grid.cellCount)")
+        print("numberOfVisibleCards: \(numberOfVisibleCards)")
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
 
     }
 
