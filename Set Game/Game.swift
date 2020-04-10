@@ -10,7 +10,7 @@ import Foundation
 
 class Game{
     
-    private(set) var cards: [Card] = []
+    var cards: [Card] = []
     
     func checkMatching() -> Bool {
 

@@ -31,12 +31,37 @@ class ViewController: UIViewController {
         }
     }
     
+    
     var lastSelectedIndex: Int = -1
     var tapPosition: CGPoint = CGPoint()
     var score = 0
     
     @IBOutlet weak var ScoreLabel: UILabel!
-    @IBOutlet weak var deckOfCards: deckOfCardsView!
+    @IBOutlet weak var deckOfCards: DeckOfCardsView! {
+        didSet{
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(deal3MoreCards))
+            swipe.direction = [.down]
+            deckOfCards.addGestureRecognizer(swipe)
+            
+            let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(rotateDeck))
+            deckOfCards.addGestureRecognizer(rotationGesture)
+        }
+    }
+    
+    @objc func rotateDeck() {
+        var tempArrayOfVisibleCards = [Card]()
+        for i in 0..<deckOfCards.grid.cellCount {
+            tempArrayOfVisibleCards.append(deckOfCards.game.cards[i])
+        }
+        print(tempArrayOfVisibleCards)
+        tempArrayOfVisibleCards = tempArrayOfVisibleCards.shuffled()
+        for i in 0..<deckOfCards.grid.cellCount {
+            deckOfCards.game.cards[i] = tempArrayOfVisibleCards[i]
+        }
+        print(tempArrayOfVisibleCards)
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
+    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if let touch = touches.first {
@@ -55,7 +80,6 @@ class ViewController: UIViewController {
                     deckOfCards.game.cards[i].isSelected = !deckOfCards.game.cards[i].isSelected
                    lastSelectedIndex = i
                 }
-                //print(" deckOfCards.game.cards[\(i)].isSelected \(deckOfCards.game.cards[i].isSelected)")
             }
             
         default: break
@@ -119,15 +143,16 @@ class ViewController: UIViewController {
         ScoreLabel.text = String("Score: \(score)")
     }
 
-    @IBAction func Deal3MoreCards(_ sender: UIButton) {
+    @IBAction @objc func deal3MoreCards(_ sender: UIButton = UIButton()) {
 
-        let count = deckOfCards.grid.cellCount
-        deckOfCards.game.cards[count].isVisible = true
-        deckOfCards.game.cards[count+1].isVisible = true
-        deckOfCards.game.cards[count+2].isVisible = true
-        deckOfCards.grid.cellCount += 3
-        updateButtonStatus()
-        
+        if add3MoreBtnIsActive {
+            let count = deckOfCards.grid.cellCount
+            deckOfCards.game.cards[count].isVisible = true
+            deckOfCards.game.cards[count+1].isVisible = true
+            deckOfCards.game.cards[count+2].isVisible = true
+            deckOfCards.grid.cellCount += 3
+            updateButtonStatus()
+        }
         deckOfCards.setNeedsLayout()
         deckOfCards.setNeedsDisplay()
 
