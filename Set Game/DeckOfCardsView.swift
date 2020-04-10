@@ -24,15 +24,14 @@ class DeckOfCardsView: UIView {
     
     override func draw(_ rect: CGRect) {
         
-       // grid.frame.size.width = self.bounds
         grid.frame = CGRect(x: self.bounds.origin.x, y: self.bounds.origin.y, width: self.bounds.width, height: self.bounds.height)
-        //grid.cellCount = 24
-        
-        //print(grid[1])
-        
+
         for i in 0..<grid.cellCount {
-            let path = UIBezierPath(roundedRect: grid[i]!, cornerRadius: cornerRadius)
             
+            let path = UIBezierPath(roundedRect: grid[i]!, cornerRadius: cornerRadius)
+
+            // MARK: padding fix 1
+            path.apply(CGAffineTransform(translationX: CGFloat(-8*grid.dimensions.columnCount)/2, y: CGFloat(-8*grid.dimensions.rowCount)/2))
             
             UIColor.white.setFill()
             path.fill()
@@ -47,15 +46,14 @@ class DeckOfCardsView: UIView {
             context.saveGState()
             
             path.addClip()
-            
+
             let bounds = path.bounds
-            //let context2 = UIGraphicsGetCurrentContext()!
-            //context2.saveGState()
             
             drawShapes(bounds: bounds, number: game.cards[i].number.rawValue, shape: game.cards[i].shape.rawValue, color: colors["\(game.cards[i].color.rawValue)"]!, shade: game.cards[i].shade.rawValue)
             
 
             context.restoreGState()
+            
             setNeedsLayout()
         }
 

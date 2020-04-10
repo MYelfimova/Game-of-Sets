@@ -134,7 +134,10 @@ struct Grid
             } else {
                 calculatedDimensions = (0, 0)
             }
-            updateCellFrames(to: cellSize)
+            
+            //updateCellFrames(to: cellSize)
+            // MARK: padding fix 1
+            updateCellFrames(to: CGSize(width: cellSize.width-20, height: cellSize.height-20))
             break
         }
     }
@@ -157,10 +160,12 @@ struct Grid
         if cellCount > 0 {
             for _ in 0..<cellCount {
                cellFrames.append(CGRect(origin: origin, size: cellSize))
-                origin.x += cellSize.width
-                if round(origin.x) > round(frame.maxX - cellSize.width) {
+                // MARK: padding fix 2
+                origin.x += cellSize.width+10
+                if round(origin.x) > round(frame.maxX - cellSize.width+10) {
                     origin.x = frame.origin.x + offset.dx
-                    origin.y += cellSize.height
+                    // MARK: padding fix 3
+                    origin.y += cellSize.height+10
                 }
             }
         }
