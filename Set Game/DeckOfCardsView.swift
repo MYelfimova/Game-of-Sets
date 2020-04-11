@@ -36,8 +36,8 @@ class DeckOfCardsView: UIView {
             UIColor.white.setFill()
             path.fill()
             
-            path.lineWidth = 1
-            if game.cards[i].isSelected { UIColor.blue.setStroke(); path.lineWidth = 4.5 }
+            path.lineWidth = 1.5
+            if game.cards[i].isSelected { UIColor(red: CGFloat(244/255.0), green: CGFloat(112/255.0), blue: CGFloat(127/255.0), alpha: 1.0).setStroke(); path.lineWidth = 4.5 }
             else {UIColor.gray.setStroke()}
             path.stroke()
 
@@ -195,13 +195,13 @@ class DeckOfCardsView: UIView {
             let bounds = myPath.bounds
 
             let stripes = UIBezierPath()
-            for x in stride(from: 0, to: bounds.size.width, by: bounds.size.width/26){
+            for x in stride(from: 0, to: bounds.size.width, by: bounds.size.width/20){
                 stripes.move(to: CGPoint(x: bounds.origin.x + x, y: bounds.origin.y ))
                 stripes.addLine(to: CGPoint(x: bounds.origin.x + x, y: bounds.origin.y + bounds.size.height ))
             }
             color.set()
             color.setStroke()
-            stripes.lineWidth = 1
+            stripes.lineWidth = 0.8
 
             myPath.lineWidth = 2.0
             

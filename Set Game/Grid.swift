@@ -137,7 +137,7 @@ struct Grid
             
             //updateCellFrames(to: cellSize)
             // MARK: padding fix 1
-            updateCellFrames(to: CGSize(width: cellSize.width-20, height: cellSize.height-20))
+            updateCellFrames(to: CGSize(width: cellSize.width-16, height: cellSize.height-20))
             break
         }
     }
