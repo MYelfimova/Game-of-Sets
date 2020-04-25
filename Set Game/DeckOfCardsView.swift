@@ -14,6 +14,7 @@ class DeckOfCardsView: UIView {
     var grid = Grid(layout: Grid.Layout.aspectRatio(CGFloat(0.625)))
     
     var game = Game()
+    var hintIndices = [-1,-1,-1]
 
     var colors = [
         "purple": UIColor(red: CGFloat(121/255.0), green: CGFloat(20/255.0), blue: CGFloat(125/255.0), alpha: 1.0),
@@ -39,6 +40,14 @@ class DeckOfCardsView: UIView {
             path.lineWidth = 1.5
             if game.cards[i].isSelected { UIColor(red: CGFloat(244/255.0), green: CGFloat(112/255.0), blue: CGFloat(127/255.0), alpha: 1.0).setStroke(); path.lineWidth = 4.5 }
             else {UIColor.gray.setStroke()}
+            
+            if hintIndices.contains(i) {
+                UIColor.yellow.setStroke()
+                path.lineWidth = 4.5
+                
+                hintIndices[hintIndices.firstIndex(of: i)!] = -1
+            }
+            
             path.stroke()
 
 

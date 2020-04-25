@@ -157,6 +157,25 @@ class ViewController: UIViewController {
         deckOfCards.setNeedsDisplay()
 
     }
+    
+    @IBAction func hintMeBtn(_ sender: UIButton) {
+        
+//        var indicesForCheck = [[Int]]()
+//
+//        for i in 0..<deckOfCards.grid.cellCount {
+//            for j in i+1..<deckOfCards.grid.cellCount {
+//                for h in j+1..<deckOfCards.grid.cellCount{
+//                    indicesForCheck.append([i, j, h])
+//                }
+//            }
+//        }
+        
+//        deckOfCards.hintIndices = deckOfCards.game.getHintIndices(indicesForCheck: indicesForCheck)
+        deckOfCards.hintIndices = [2, 5, 7]
+        deckOfCards.setNeedsLayout()
+        deckOfCards.setNeedsDisplay()
+    }
+    
 
     @IBAction func NewGameBtn(_ sender: UIButton) {
         

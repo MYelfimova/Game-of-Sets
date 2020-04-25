@@ -59,6 +59,39 @@ class Game{
         }
         return false;
     }
+    
+    func getHintIndices (indicesForCheck: [[Int]]) -> [Int]{
+        let hintIndices = [0,2,8]
+        //let visibleCards = cards.indices.filter({cards[$0].isVisible})
+
+//        for index in indicesForCheck {
+//
+//            if ((((visibleCards[index[0]].shape == visibleCards[index[1]].shape) && (visibleCards[index[0]].shape == visibleCards[index[2]].shape) && (visibleCards[index[1]].shape == visibleCards[index[2]].shape))
+//            ||
+//            ((visibleCards[index[0]].shape != visibleCards[index[1]].shape) && (visibleCards[index[0]].shape != visibleCards[index[2]].shape) && (visibleCards[index[1]].shape != visibleCards[index[2]].shape)))
+//            &&
+//            (((visibleCards[index[0]].color == visibleCards[index[1]].color) && (visibleCards[index[0]].color == visibleCards[index[2]].color) && (visibleCards[index[1]].color == visibleCards[index[2]].color))
+//            ||
+//            ((visibleCards[index[0]].color != visibleCards[index[1]].color) && (visibleCards[index[0]].color != visibleCards[index[2]].color) && (visibleCards[index[1]].color != visibleCards[index[2]].color)))
+//            &&
+//            (((visibleCards[index[0]].shade == visibleCards[index[1]].shade) && (visibleCards[index[0]].shade == visibleCards[index[2]].shade) && (visibleCards[index[1]].shade == visibleCards[index[2]].shade))
+//            ||
+//            ((visibleCards[index[0]].shade != visibleCards[index[1]].shade) && (visibleCards[index[0]].shade != visibleCards[index[2]].shade) && (visibleCards[index[1]].shade != visibleCards[index[2]].shade)))
+//            &&
+//            (((visibleCards[index[0]].number == visibleCards[index[1]].number) && (visibleCards[index[0]].number == visibleCards[index[2]].number) && (visibleCards[index[1]].number == visibleCards[index[2]].number))
+//            ||
+//                ((visibleCards[index[0]].number != visibleCards[index[1]].number) && (visibleCards[index[0]].number != visibleCards[index[2]].number) && (visibleCards[index[1]].number != visibleCards[index[2]].number))))
+//            {
+//                hintIndices = index
+//                break
+//            }
+//            else {
+//                hintIndices = [-1, -1, -1]
+//            }
+//        }
+//
+        return hintIndices
+    }
 
     init() {
         self.cards = FullDeck().cards
